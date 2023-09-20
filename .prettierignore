@@ -1,0 +1,9 @@
+# folders
+/.next/
+/node_modules/
+
+# files
+/.env*
+*.tsbuildinfo
+pnpm-lock.yaml
+next-env.d.ts
