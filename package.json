@@ -1,7 +1,6 @@
 {
-	"name": "web-primer-shell",
-	"version": "0.2.1",
-	"description": "A developer-friendly web application template suitable for a wide spectrum of full-stack projects, offering a blend of contemporary tools and solutions to cater to both straightforward and intricate development needs.",
+	"name": "lol-scan-api",
+	"version": "0.0.1",
 	"author": {
 		"name": "Peter Kovacs",
 		"email": "peterkov37@gmail.com",
@@ -10,12 +9,12 @@
 	"maintainers": [
 		"thepeterkovacs"
 	],
-	"homepage": "https://github.com/thepeterkovacs/web-primer-shell",
+	"homepage": "https://github.com/thepeterkovacs/lol-scan-api",
 	"license": "MIT",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/thepeterkovacs/web-primer-shell"
+		"url": "https://github.com/thepeterkovacs/lol-scan-api"
 	},
 	"engines": {
 		"node": ">=18.17.1"
