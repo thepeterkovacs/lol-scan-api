@@ -4,7 +4,7 @@ import { renderTrpcPanel } from "trpc-panel"
 export async function GET() {
 	return new Response(
 		renderTrpcPanel(appRouter, {
-			url: `${process.env.API_KEY}/api/trpc`,
+			url: `${process.env.URL}/api/trpc`,
 		}),
 		{
 			status: 200,
