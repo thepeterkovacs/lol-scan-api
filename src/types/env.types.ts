@@ -1,9 +1,8 @@
 import { z } from "zod"
 
 const env = z.object({
-	DATABASE_URL: z.string(),
-	NEXTAUTH_URL: z.string(),
-	NEXTAUTH_SECRET: z.string(),
+	URL: z.string(),
+	API_KEY: z.string(),
 })
 
 env.parse(process.env)
