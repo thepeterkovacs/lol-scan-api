@@ -4,6 +4,7 @@ const env = z.object({
 	DATABASE_URL: z.string(),
 	NEXTAUTH_URL: z.string(),
 	NEXTAUTH_SECRET: z.string(),
+	API_KEY: z.string(),
 })
 
 env.parse(process.env)
