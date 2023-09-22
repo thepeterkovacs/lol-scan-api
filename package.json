@@ -1,16 +1,16 @@
 {
 	"name": "lol-scan-api",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "An application programming interface for tracking League of Legends data, developed with tRPC, leveraging fundamental web-scraping techniques.",
 	"author": {
 		"name": "Peter Kovacs",
 		"email": "peterkov37@gmail.com",
-		"url": "https://primershell.com"
+		"url": "https://lol-scan-api.vercel.app"
 	},
 	"maintainers": [
 		"thepeterkovacs"
 	],
-	"homepage": "https://github.com/thepeterkovacs/lol-scan-api",
+	"homepage": "https://lol-scan-api.vercel.app",
 	"license": "MIT",
 	"private": true,
 	"repository": {
