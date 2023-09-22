@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-	basePath: "/lol-scan-api",
-}
+const nextConfig = {}
 
 module.exports = nextConfig
