@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test"
 
 test.describe.parallel("getIsInGame", () => {
 	test("success_200", async ({ request }) => {
-		const url = "http://localhost:3000/lol-scan-api/api/trpc/player.getIsInGame"
+		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
 		const response = await request.get(url, {
 			headers: {
@@ -17,7 +17,7 @@ test.describe.parallel("getIsInGame", () => {
 	})
 
 	test("unauthorized_401", async ({ request }) => {
-		const url = "http://localhost:3000/lol-scan-api/api/trpc/player.getIsInGame"
+		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
 		const response = await request.get(url, {
 			headers: {
@@ -32,7 +32,7 @@ test.describe.parallel("getIsInGame", () => {
 	})
 
 	test("notFound_404", async ({ request }) => {
-		const url = "http://localhost:3000/lol-scan-api/api/trpc/player.getIsInGame"
+		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
 		const response = await request.get(url, {
 			headers: {
@@ -47,7 +47,7 @@ test.describe.parallel("getIsInGame", () => {
 	})
 
 	test("response_data", async ({ request }) => {
-		const url = "http://localhost:3000/lol-scan-api/api/trpc/player.getIsInGame"
+		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
 		const response = await request.get(url, {
 			headers: {
