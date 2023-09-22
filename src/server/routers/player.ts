@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server"
 
-import { getDocumentFromUrl } from "@/lib/utils/server"
+import { getHtmlFromUrl } from "@/lib/utils"
 
 import { GetIsInGame } from "../models/inputs"
 import { privateProcedure, router } from "../trpc"
@@ -11,19 +11,19 @@ const getIsInGame = privateProcedure
 	.query(async ({ input }) => {
 		const { region, name } = input
 
-		const url = `https://www.leagueofgraphs.com/summoner/${region}/${name}`
-		const document = await getDocumentFromUrl(url)
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
 
-		if (document.querySelector(".solo-text")) {
+		if (html.toLowerCase().includes("not found")) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
 				message: "Player with the given name and region does not exist",
 			})
 		}
 
-		const liveButton = document.querySelector("#live_button")
+		const isInGame = !html.includes("not in-game")
 
-		return { isInGame: liveButton !== null }
+		return { isInGame }
 	})
 
 const playerRouter = router({
