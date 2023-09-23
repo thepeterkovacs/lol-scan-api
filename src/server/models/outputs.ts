@@ -6,4 +6,5 @@ export const GetIsInGameOutput = z.object({
 
 export const GetLiveGameDataOutput = z.object({
 	gameMode: z.string(),
+	gameDuration: z.number(),
 })

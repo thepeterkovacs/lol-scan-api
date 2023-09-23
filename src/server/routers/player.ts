@@ -57,6 +57,7 @@ const getLiveGameData = privateProcedure
 
 		return {
 			gameMode: getGameMode(html),
+			gameDuration: getGameDuration(html),
 		}
 	})
 
@@ -64,13 +65,32 @@ const getGameMode = (html: string): string => {
 	const prefix = '<h2 class="left relative">'
 	const suffix = '<span id="gameDuration"'
 
-	const startIndex = html.indexOf(prefix)
-	const endIndex = html.indexOf(suffix)
-
-	const subString = html.slice(startIndex + prefix.length, endIndex)
+	const subString = extractSubstring(html, prefix, suffix)
 	const gameMode = subString.replace(/\s/g, "")
 
 	return gameMode
+}
+
+const getGameDuration = (html: string): number => {
+	const prefix = ">("
+	const suffix = ")<"
+
+	const subString = extractSubstring(html, prefix, suffix)
+
+	const [minutes, seconds] = subString.split(":").map(Number)
+
+	const gameDuration = (minutes * 60 + seconds) * 1000
+
+	return gameDuration
+}
+
+const extractSubstring = (str: string, prefix: string, suffix: string): string => {
+	const startIndex = str.indexOf(prefix)
+	const endIndex = str.indexOf(suffix)
+
+	const subString = str.slice(startIndex + prefix.length, endIndex)
+
+	return subString
 }
 
 const playerRouter = router({
