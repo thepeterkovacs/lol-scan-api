@@ -2,12 +2,14 @@ import { TRPCError } from "@trpc/server"
 
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { GetIsInGame, GetLiveGameData } from "../models/inputs"
+import { GetIsInGameInput, GetLiveGameDataInput } from "../models/inputs"
+import { GetIsInGameOutput, GetLiveGameDataOutput } from "../models/outputs"
 import { privateProcedure, router } from "../trpc"
 
 const getIsInGame = privateProcedure
 	.meta({ description: "Checks whether the player is currently in an active game." })
-	.input(GetIsInGame)
+	.input(GetIsInGameInput)
+	.output(GetIsInGameOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -31,7 +33,8 @@ const getLiveGameData = privateProcedure
 		description:
 			"For a player currently in an active game, collects all the available game data.",
 	})
-	.input(GetLiveGameData)
+	.input(GetLiveGameDataInput)
+	.output(GetLiveGameDataOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
