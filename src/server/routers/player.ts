@@ -58,6 +58,7 @@ const getLiveGameData = privateProcedure
 		return {
 			gameMode: getGameMode(html),
 			gameDuration: getGameDuration(html),
+			players: getPlayers(html),
 		}
 	})
 
@@ -82,6 +83,19 @@ const getGameDuration = (html: string): number => {
 	const gameDuration = (minutes * 60 + seconds) * 1000
 
 	return gameDuration
+}
+
+const getPlayers = (html: string): { name: string }[] => {
+	const regex = /data-summonername="(.*)" data-summonerid/g
+
+	let players: { name: string }[] = []
+	let match: RegExpExecArray | null
+
+	while ((match = regex.exec(html)) !== null) {
+		players.push({ name: match[1] })
+	}
+
+	return players
 }
 
 const extractSubstring = (str: string, prefix: string, suffix: string): string => {
