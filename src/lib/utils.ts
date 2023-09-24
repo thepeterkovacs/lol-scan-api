@@ -15,3 +15,12 @@ export const getDocumentFromUrl = async (url: string): Promise<Document> => {
 
 	return dom.window.document
 }
+
+export const extractSubstring = (str: string, prefix: string, suffix: string): string => {
+	const startIndex = str.indexOf(prefix)
+	const endIndex = str.indexOf(suffix)
+
+	const subString = str.slice(startIndex + prefix.length, endIndex)
+
+	return subString
+}

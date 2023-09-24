@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server"
 
+import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
 import { GetIsInGameInput, GetLiveGameDataInput } from "../models/inputs"
@@ -61,51 +62,6 @@ const getLiveGameData = privateProcedure
 			players: getPlayers(html),
 		}
 	})
-
-const getGameMode = (html: string): string => {
-	const prefix = '<h2 class="left relative">'
-	const suffix = '<span id="gameDuration"'
-
-	const subString = extractSubstring(html, prefix, suffix)
-	const gameMode = subString.replace(/\s/g, "")
-
-	return gameMode
-}
-
-const getGameDuration = (html: string): number => {
-	const prefix = ">("
-	const suffix = ")<"
-
-	const subString = extractSubstring(html, prefix, suffix)
-
-	const [minutes, seconds] = subString.split(":").map(Number)
-
-	const gameDuration = (minutes * 60 + seconds) * 1000
-
-	return gameDuration
-}
-
-const getPlayers = (html: string): { name: string }[] => {
-	const regex = /data-summonername="(.*)" data-summonerid/g
-
-	let players: { name: string }[] = []
-	let match: RegExpExecArray | null
-
-	while ((match = regex.exec(html)) !== null) {
-		players.push({ name: match[1] })
-	}
-
-	return players
-}
-
-const extractSubstring = (str: string, prefix: string, suffix: string): string => {
-	const startIndex = str.indexOf(prefix)
-	const endIndex = str.indexOf(suffix)
-
-	const subString = str.slice(startIndex + prefix.length, endIndex)
-
-	return subString
-}
 
 const playerRouter = router({
 	getIsInGame,
