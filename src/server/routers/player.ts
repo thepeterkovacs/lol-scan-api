@@ -1,13 +1,16 @@
 import { TRPCError } from "@trpc/server"
 
+import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { GetIsInGame, GetLiveGameData } from "../models/inputs"
+import { GetIsInGameInput, GetLiveGameDataInput } from "../models/inputs"
+import { GetIsInGameOutput, GetLiveGameDataOutput } from "../models/outputs"
 import { privateProcedure, router } from "../trpc"
 
 const getIsInGame = privateProcedure
 	.meta({ description: "Checks whether the player is currently in an active game." })
-	.input(GetIsInGame)
+	.input(GetIsInGameInput)
+	.output(GetIsInGameOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -31,7 +34,8 @@ const getLiveGameData = privateProcedure
 		description:
 			"For a player currently in an active game, collects all the available game data.",
 	})
-	.input(GetLiveGameData)
+	.input(GetLiveGameDataInput)
+	.output(GetLiveGameDataOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -54,21 +58,10 @@ const getLiveGameData = privateProcedure
 
 		return {
 			gameMode: getGameMode(html),
+			gameDuration: getGameDuration(html),
+			players: getPlayers(html),
 		}
 	})
-
-const getGameMode = (html: string): string => {
-	const prefix = '<h2 class="left relative">'
-	const suffix = '<span id="gameDuration"'
-
-	const startIndex = html.indexOf(prefix)
-	const endIndex = html.indexOf(suffix)
-
-	const subString = html.slice(startIndex + prefix.length, endIndex)
-	const gameMode = subString.replace(/\s/g, "")
-
-	return gameMode
-}
 
 const playerRouter = router({
 	getIsInGame,
