@@ -2,8 +2,8 @@ import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/logic/error"
 import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { GetIsInGameInput, GetLiveGameDataInput } from "../models/inputs"
-import { GetIsInGameOutput, GetLiveGameDataOutput } from "../models/outputs"
+import { GetIsInGameInput, GetLiveGameDataInput, GetLiveGameModeInput } from "../models/inputs"
+import { GetIsInGameOutput, GetLiveGameDataOutput, GetLiveGameModeOutput } from "../models/outputs"
 import { privateProcedure, router } from "../trpc"
 
 const getIsInGame = privateProcedure
@@ -21,6 +21,22 @@ const getIsInGame = privateProcedure
 		const isInGame = !html.includes("not in-game")
 
 		return { isInGame }
+	})
+
+const getLiveGameMode = privateProcedure
+	.meta({ description: "For a player currently in an active game, returns the game mode." })
+	.input(GetLiveGameModeInput)
+	.output(GetLiveGameModeOutput)
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
+
+		return { gameMode: getGameMode(html) }
 	})
 
 const getLiveGameData = privateProcedure
@@ -48,6 +64,7 @@ const getLiveGameData = privateProcedure
 
 const playerRouter = router({
 	getIsInGame,
+	getLiveGameMode,
 	getLiveGameData,
 })
 
