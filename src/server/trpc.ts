@@ -1,6 +1,8 @@
-import { TRPCError, initTRPC } from "@trpc/server"
+import { initTRPC } from "@trpc/server"
 import { OpenApiMeta } from "trpc-openapi"
 import { TRPCPanelMeta } from "trpc-panel"
+
+import { checkApiKey } from "@/lib/logic/error"
 
 type Context = {
 	apiKey: string
@@ -12,12 +14,7 @@ const t = initTRPC.meta<Meta>().context<Context>().create()
 export const router = t.router
 
 export const auth = t.middleware(({ ctx, next }) => {
-	if (ctx.apiKey !== process.env.API_KEY) {
-		throw new TRPCError({
-			code: "UNAUTHORIZED",
-			message: "Invalid API key",
-		})
-	}
+	checkApiKey(ctx.apiKey)
 
 	return next({
 		ctx: {

@@ -1,5 +1,4 @@
-import { TRPCError } from "@trpc/server"
-
+import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/logic/error"
 import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
@@ -17,12 +16,7 @@ const getIsInGame = privateProcedure
 		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
 		const html = await getHtmlFromUrl(url)
 
-		if (html.toLowerCase().includes("not found")) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Player with the given name and region does not exist",
-			})
-		}
+		checkPlayerNotFound(html)
 
 		const isInGame = !html.includes("not in-game")
 
@@ -42,19 +36,8 @@ const getLiveGameData = privateProcedure
 		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
 		const html = await getHtmlFromUrl(url)
 
-		if (html.toLowerCase().includes("not found")) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Player with the given name and region does not exist",
-			})
-		}
-
-		if (html.includes("not in-game")) {
-			throw new TRPCError({
-				code: "NOT_IMPLEMENTED",
-				message: "Player is not currently in an active game",
-			})
-		}
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
 
 		return {
 			gameMode: getGameMode(html),
