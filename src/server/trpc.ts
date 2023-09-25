@@ -1,11 +1,14 @@
 import { TRPCError, initTRPC } from "@trpc/server"
+import { OpenApiMeta } from "trpc-openapi"
 import { TRPCPanelMeta } from "trpc-panel"
 
 type Context = {
 	apiKey: string
 }
 
-const t = initTRPC.meta<TRPCPanelMeta>().context<Context>().create()
+type Meta = TRPCPanelMeta & OpenApiMeta
+
+const t = initTRPC.meta<Meta>().context<Context>().create()
 export const router = t.router
 
 export const auth = t.middleware(({ ctx, next }) => {
