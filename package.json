@@ -1,6 +1,6 @@
 {
 	"name": "lol-scan-api",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "An application programming interface for tracking League of Legends data, developed with tRPC, leveraging fundamental web-scraping techniques.",
 	"author": {
 		"name": "Peter Kovacs",
