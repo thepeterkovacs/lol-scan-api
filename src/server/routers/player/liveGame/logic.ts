@@ -1,6 +1,6 @@
-import { Player } from "@/server/models/outputs"
+import { PlayerWithName } from "@/server/models/liveGame"
 
-import { extractSubstring } from "../utils"
+import { extractSubstring } from "../../../../lib/utils"
 
 /**
  * Extracts the game mode from the provided HTML string.
@@ -44,15 +44,15 @@ export const getGameDuration = (html: string): number => {
 /**
  * Extracts the players from the provided HTML string.
  * @param {string} html HTML string to extract player names from.
- * @returns {Player[]} An array of players.
+ * @returns {PlayerWithName[]} An array of players with only names.
  * @example
  * const output = getPlayers('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
  * //output = [{ name: "Player1" }, { name: "Player2" }]
  */
-export const getPlayers = (html: string): Player[] => {
+export const getPlayers = (html: string): PlayerWithName[] => {
 	const regex = /data-summonername="(.*)" data-summonerid/g
 
-	let players: Player[] = []
+	let players: PlayerWithName[] = []
 	let match: RegExpExecArray | null
 
 	while ((match = regex.exec(html)) !== null) {
