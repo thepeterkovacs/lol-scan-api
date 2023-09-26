@@ -1,42 +1,15 @@
+import { GetAllDataInput, GetLiveGameDurationInput, GetModeInput } from "@/server/models/inputs"
+import { GetAllDataOutput, GetLiveGameDurationOutput, GetModeOutput } from "@/server/models/outputs"
+import { privateProcedure, router } from "@/server/trpc"
+
 import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/logic/error"
 import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import {
-	GetIsInGameInput,
-	GetLiveGameDataInput,
-	GetLiveGameDurationInput,
-	GetLiveGameModeInput,
-} from "../models/inputs"
-import {
-	GetIsInGameOutput,
-	GetLiveGameDataOutput,
-	GetLiveGameDurationOutput,
-	GetLiveGameModeOutput,
-} from "../models/outputs"
-import { privateProcedure, router } from "../trpc"
-
-const getIsInGame = privateProcedure
-	.meta({ description: "Checks whether the player is currently in an active game." })
-	.input(GetIsInGameInput)
-	.output(GetIsInGameOutput)
-	.query(async ({ input }) => {
-		const { region, name } = input
-
-		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
-		const html = await getHtmlFromUrl(url)
-
-		checkPlayerNotFound(html)
-
-		const isInGame = !html.includes("not in-game")
-
-		return { isInGame }
-	})
-
-const getLiveGameMode = privateProcedure
+const getMode = privateProcedure
 	.meta({ description: "For a player currently in an active game, returns the game mode." })
-	.input(GetLiveGameModeInput)
-	.output(GetLiveGameModeOutput)
+	.input(GetModeInput)
+	.output(GetModeOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -49,7 +22,7 @@ const getLiveGameMode = privateProcedure
 		return { gameMode: getGameMode(html) }
 	})
 
-const getLiveGameDuration = privateProcedure
+const getDuration = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, returns the game duration in milliseconds.",
@@ -68,13 +41,13 @@ const getLiveGameDuration = privateProcedure
 		return { gameDuration: getGameDuration(html) }
 	})
 
-const getLiveGameData = privateProcedure
+const getAllData = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, collects all the available game data.",
 	})
-	.input(GetLiveGameDataInput)
-	.output(GetLiveGameDataOutput)
+	.input(GetAllDataInput)
+	.output(GetAllDataOutput)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -91,11 +64,8 @@ const getLiveGameData = privateProcedure
 		}
 	})
 
-const playerRouter = router({
-	getIsInGame,
-	getLiveGameMode,
-	getLiveGameDuration,
-	getLiveGameData,
+export const liveGameRouter = router({
+	getMode,
+	getDuration,
+	getAllData,
 })
-
-export default playerRouter
