@@ -2,6 +2,13 @@
 	Changelog
 </h1>
 
+### 1.0.4
+
+#### Changes
+
+-   separate routers and endpoints
+-   restructured models
+
 ### 1.0.3
 
 #### New features
