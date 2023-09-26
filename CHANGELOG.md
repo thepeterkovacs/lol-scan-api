@@ -2,6 +2,19 @@
 	Changelog
 </h1>
 
+### 1.0.3
+
+#### New features
+
+-   access control allow headers
+-   tRPC OpenAPI
+-   getLiveGameMode endpoint
+-   getLiveGameDuration endpoint
+
+#### Changes
+
+-   separate error checking
+
 ### 1.0.2
 
 #### New features

@@ -1,10 +1,19 @@
-import { TRPCError } from "@trpc/server"
-
+import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/logic/error"
 import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { GetIsInGameInput, GetLiveGameDataInput } from "../models/inputs"
-import { GetIsInGameOutput, GetLiveGameDataOutput } from "../models/outputs"
+import {
+	GetIsInGameInput,
+	GetLiveGameDataInput,
+	GetLiveGameDurationInput,
+	GetLiveGameModeInput,
+} from "../models/inputs"
+import {
+	GetIsInGameOutput,
+	GetLiveGameDataOutput,
+	GetLiveGameDurationOutput,
+	GetLiveGameModeOutput,
+} from "../models/outputs"
 import { privateProcedure, router } from "../trpc"
 
 const getIsInGame = privateProcedure
@@ -17,16 +26,46 @@ const getIsInGame = privateProcedure
 		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
 		const html = await getHtmlFromUrl(url)
 
-		if (html.toLowerCase().includes("not found")) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Player with the given name and region does not exist",
-			})
-		}
+		checkPlayerNotFound(html)
 
 		const isInGame = !html.includes("not in-game")
 
 		return { isInGame }
+	})
+
+const getLiveGameMode = privateProcedure
+	.meta({ description: "For a player currently in an active game, returns the game mode." })
+	.input(GetLiveGameModeInput)
+	.output(GetLiveGameModeOutput)
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
+
+		return { gameMode: getGameMode(html) }
+	})
+
+const getLiveGameDuration = privateProcedure
+	.meta({
+		description:
+			"For a player currently in an active game, returns the game duration in milliseconds.",
+	})
+	.input(GetLiveGameDurationInput)
+	.output(GetLiveGameDurationOutput)
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
+
+		return { gameDuration: getGameDuration(html) }
 	})
 
 const getLiveGameData = privateProcedure
@@ -42,19 +81,8 @@ const getLiveGameData = privateProcedure
 		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
 		const html = await getHtmlFromUrl(url)
 
-		if (html.toLowerCase().includes("not found")) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Player with the given name and region does not exist",
-			})
-		}
-
-		if (html.includes("not in-game")) {
-			throw new TRPCError({
-				code: "NOT_IMPLEMENTED",
-				message: "Player is not currently in an active game",
-			})
-		}
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
 
 		return {
 			gameMode: getGameMode(html),
@@ -65,6 +93,8 @@ const getLiveGameData = privateProcedure
 
 const playerRouter = router({
 	getIsInGame,
+	getLiveGameMode,
+	getLiveGameDuration,
 	getLiveGameData,
 })
 
