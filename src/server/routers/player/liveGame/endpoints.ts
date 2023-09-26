@@ -1,5 +1,5 @@
-import { GetAllDataInput, GetLiveGameDurationInput, GetModeInput } from "@/server/models/inputs"
-import { GetAllDataOutput, GetLiveGameDurationOutput, GetModeOutput } from "@/server/models/outputs"
+import { LiveGame } from "@/server/models/liveGame"
+import { Player } from "@/server/models/player"
 import { privateProcedure } from "@/server/trpc"
 
 import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/error"
@@ -9,8 +9,8 @@ import { getGameDuration, getGameMode, getPlayers } from "./logic"
 
 export const getMode = privateProcedure
 	.meta({ description: "For a player currently in an active game, returns the game mode." })
-	.input(GetModeInput)
-	.output(GetModeOutput)
+	.input(Player.pick({ name: true, region: true }))
+	.output(LiveGame.pick({ mode: true }))
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -20,7 +20,7 @@ export const getMode = privateProcedure
 		checkPlayerNotFound(html)
 		checkPlayerNotInGame(html)
 
-		return { gameMode: getGameMode(html) }
+		return { mode: getGameMode(html) }
 	})
 
 export const getDuration = privateProcedure
@@ -28,8 +28,8 @@ export const getDuration = privateProcedure
 		description:
 			"For a player currently in an active game, returns the game duration in milliseconds.",
 	})
-	.input(GetLiveGameDurationInput)
-	.output(GetLiveGameDurationOutput)
+	.input(Player.pick({ name: true, region: true }))
+	.output(LiveGame.pick({ duration: true }))
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -39,7 +39,7 @@ export const getDuration = privateProcedure
 		checkPlayerNotFound(html)
 		checkPlayerNotInGame(html)
 
-		return { gameDuration: getGameDuration(html) }
+		return { duration: getGameDuration(html) }
 	})
 
 export const getAllData = privateProcedure
@@ -47,8 +47,8 @@ export const getAllData = privateProcedure
 		description:
 			"For a player currently in an active game, collects all the available game data.",
 	})
-	.input(GetAllDataInput)
-	.output(GetAllDataOutput)
+	.input(Player.pick({ name: true, region: true }))
+	.output(LiveGame.pick({ players: true }))
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -59,8 +59,8 @@ export const getAllData = privateProcedure
 		checkPlayerNotInGame(html)
 
 		return {
-			gameMode: getGameMode(html),
-			gameDuration: getGameDuration(html),
+			mode: getGameMode(html),
+			duration: getGameDuration(html),
 			players: getPlayers(html),
 		}
 	})
