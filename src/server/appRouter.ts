@@ -1,4 +1,4 @@
-import playerRouter from "./routers/player/player"
+import playerRouter from "./routers/player/router"
 import { router } from "./trpc"
 
 export const appRouter = router({

@@ -1,6 +1,6 @@
 import { Player } from "@/server/models/outputs"
 
-import { extractSubstring } from "../utils"
+import { extractSubstring } from "../../../../lib/utils"
 
 /**
  * Extracts the game mode from the provided HTML string.

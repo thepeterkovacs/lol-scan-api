@@ -2,7 +2,7 @@ import { initTRPC } from "@trpc/server"
 import { OpenApiMeta } from "trpc-openapi"
 import { TRPCPanelMeta } from "trpc-panel"
 
-import { checkApiKey } from "@/lib/logic/error"
+import { checkApiKey } from "@/lib/error"
 
 type Context = {
 	apiKey: string

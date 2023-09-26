@@ -1,12 +1,13 @@
 import { GetAllDataInput, GetLiveGameDurationInput, GetModeInput } from "@/server/models/inputs"
 import { GetAllDataOutput, GetLiveGameDurationOutput, GetModeOutput } from "@/server/models/outputs"
-import { privateProcedure, router } from "@/server/trpc"
+import { privateProcedure } from "@/server/trpc"
 
-import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/logic/error"
-import { getGameDuration, getGameMode, getPlayers } from "@/lib/logic/player"
+import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-const getMode = privateProcedure
+import { getGameDuration, getGameMode, getPlayers } from "./logic"
+
+export const getMode = privateProcedure
 	.meta({ description: "For a player currently in an active game, returns the game mode." })
 	.input(GetModeInput)
 	.output(GetModeOutput)
@@ -22,7 +23,7 @@ const getMode = privateProcedure
 		return { gameMode: getGameMode(html) }
 	})
 
-const getDuration = privateProcedure
+export const getDuration = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, returns the game duration in milliseconds.",
@@ -41,7 +42,7 @@ const getDuration = privateProcedure
 		return { gameDuration: getGameDuration(html) }
 	})
 
-const getAllData = privateProcedure
+export const getAllData = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, collects all the available game data.",
@@ -63,9 +64,3 @@ const getAllData = privateProcedure
 			players: getPlayers(html),
 		}
 	})
-
-export const liveGameRouter = router({
-	getMode,
-	getDuration,
-	getAllData,
-})

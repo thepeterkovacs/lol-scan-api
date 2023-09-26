@@ -1,12 +1,11 @@
-import { checkPlayerNotFound } from "@/lib/logic/error"
+import { GetIsInGameInput } from "@/server/models/inputs"
+import { GetIsInGameOutput } from "@/server/models/outputs"
+import { privateProcedure } from "@/server/trpc"
+
+import { checkPlayerNotFound } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { GetIsInGameInput } from "../../models/inputs"
-import { GetIsInGameOutput } from "../../models/outputs"
-import { privateProcedure, router } from "../../trpc"
-import { liveGameRouter } from "./routers/liveGame/liveGame"
-
-const getIsInGame = privateProcedure
+export const getIsInGame = privateProcedure
 	.meta({ description: "Checks whether the player is currently in an active game." })
 	.input(GetIsInGameInput)
 	.output(GetIsInGameOutput)
@@ -22,10 +21,3 @@ const getIsInGame = privateProcedure
 
 		return { isInGame }
 	})
-
-const playerRouter = router({
-	getIsInGame,
-	liveGame: liveGameRouter,
-})
-
-export default playerRouter
