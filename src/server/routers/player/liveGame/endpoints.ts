@@ -48,7 +48,7 @@ export const getAllData = privateProcedure
 			"For a player currently in an active game, collects all the available game data.",
 	})
 	.input(Player.pick({ name: true, region: true }))
-	.output(LiveGame.pick({ players: true }))
+	.output(LiveGame)
 	.query(async ({ input }) => {
 		const { region, name } = input
 
