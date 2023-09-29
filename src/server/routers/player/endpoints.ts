@@ -4,6 +4,8 @@ import { privateProcedure } from "@/server/trpc"
 import { checkPlayerNotFound } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
+import { getIsInGameLogic } from "./logic"
+
 export const getIsInGame = privateProcedure
 	.meta({ description: "Checks whether the player is currently in an active game." })
 	.input(Player.pick({ name: true, region: true }))
@@ -16,7 +18,5 @@ export const getIsInGame = privateProcedure
 
 		checkPlayerNotFound(html)
 
-		const isInGame = !html.includes("not in-game")
-
-		return { isInGame }
+		return { isInGame: getIsInGameLogic(html) }
 	})
