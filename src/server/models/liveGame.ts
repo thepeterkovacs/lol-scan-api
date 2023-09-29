@@ -2,14 +2,14 @@ import { z } from "zod"
 
 import { Player } from "./player"
 
-export const PlayerWithName = Player.pick({ name: true })
+export const LiveGamePlayer = Player.pick({ name: true, rank: true })
 
-export type PlayerWithName = z.infer<typeof PlayerWithName>
+export type LiveGamePlayer = z.infer<typeof LiveGamePlayer>
 
 export const LiveGame = z.object({
 	mode: z.string(),
 	duration: z.number(),
-	players: PlayerWithName.array(),
+	players: LiveGamePlayer.array(),
 })
 
 export type LiveGame = z.infer<typeof LiveGame>
