@@ -4,7 +4,7 @@ import { privateProcedure } from "@/server/trpc"
 import { checkPlayerNotFound } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { getIsInGameLogic } from "./logic"
+import { getIconLogic, getIsInGameLogic } from "./logic"
 
 export const getIsInGame = privateProcedure
 	.meta({ description: "Checks whether the player is currently in an active game." })
@@ -19,6 +19,21 @@ export const getIsInGame = privateProcedure
 		checkPlayerNotFound(html)
 
 		return { isInGame: getIsInGameLogic(html) }
+	})
+
+export const getIcon = privateProcedure
+	.meta({ description: "Returns the path to the player's icon." })
+	.input(Player.pick({ name: true, region: true }))
+	.output(Player.pick({ icon: true }))
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://www.leagueofgraphs.com/summoner/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+
+		return { icon: getIconLogic(html) }
 	})
 
 export const getAllData = privateProcedure
