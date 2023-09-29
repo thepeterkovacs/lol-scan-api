@@ -5,7 +5,7 @@ import { privateProcedure } from "@/server/trpc"
 import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { getGameDuration, getGameMode, getPlayers } from "./logic"
+import { getGameDuration, getGameMode, getGamePlayers } from "./logic"
 
 export const getMode = privateProcedure
 	.meta({ description: "For a player currently in an active game, returns the game mode." })
@@ -42,6 +42,25 @@ export const getDuration = privateProcedure
 		return { duration: getGameDuration(html) }
 	})
 
+export const getPlayers = privateProcedure
+	.meta({
+		description:
+			"For a player currently in an active game, returns all players from that game.",
+	})
+	.input(Player.pick({ name: true, region: true }))
+	.output(LiveGame.pick({ players: true }))
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+		checkPlayerNotInGame(html)
+
+		return { players: getGamePlayers(html) }
+	})
+
 export const getAllData = privateProcedure
 	.meta({
 		description:
@@ -61,6 +80,6 @@ export const getAllData = privateProcedure
 		return {
 			mode: getGameMode(html),
 			duration: getGameDuration(html),
-			players: getPlayers(html),
+			players: getGamePlayers(html),
 		}
 	})

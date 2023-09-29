@@ -46,10 +46,10 @@ export const getGameDuration = (html: string): number => {
  * @param {string} html HTML string to extract player names from.
  * @returns {PlayerWithName[]} An array of players with only names.
  * @example
- * const output = getPlayers('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
+ * const output = getGamePlayers('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
  * //output = [{ name: "Player1" }, { name: "Player2" }]
  */
-export const getPlayers = (html: string): PlayerWithName[] => {
+export const getGamePlayers = (html: string): PlayerWithName[] => {
 	const regex = /data-summonername="(.*)" data-summonerid/g
 
 	let players: PlayerWithName[] = []
