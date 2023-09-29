@@ -44,6 +44,12 @@ test.describe.parallel("getMode", () => {
 		})
 
 		expect(response.status() === 501 || response.status() === 200).toBeTruthy()
+
+		if (response.status() === 200) {
+			const data = JSON.parse(await response.text()).result.data
+
+			expect(typeof data.mode).toBe("string")
+		}
 	})
 })
 
@@ -91,5 +97,11 @@ test.describe.parallel("getDuration", () => {
 		})
 
 		expect(response.status() === 501 || response.status() === 200).toBeTruthy()
+
+		if (response.status() === 200) {
+			const data = JSON.parse(await response.text()).result.data
+
+			expect(typeof data.duration).toBe("number")
+		}
 	})
 })

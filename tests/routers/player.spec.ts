@@ -1,21 +1,6 @@
 import test, { expect } from "@playwright/test"
 
 test.describe.parallel("getIsInGame", () => {
-	test("success_200", async ({ request }) => {
-		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
-
-		const response = await request.get(url, {
-			headers: {
-				"api-key": process.env.API_KEY,
-			},
-			params: {
-				input: '{"region":"eune","name":"Quicksave"}',
-			},
-		})
-
-		expect(response.status()).toBe(200)
-	})
-
 	test("unauthorized_401", async ({ request }) => {
 		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
@@ -46,7 +31,7 @@ test.describe.parallel("getIsInGame", () => {
 		expect(response.status()).toBe(404)
 	})
 
-	test("responseData_boolean", async ({ request }) => {
+	test("success_200", async ({ request }) => {
 		const url = `${process.env.URL}/api/trpc/player.getIsInGame`
 
 		const response = await request.get(url, {
@@ -60,6 +45,7 @@ test.describe.parallel("getIsInGame", () => {
 
 		const data = JSON.parse(await response.text()).result.data
 
+		expect(response.status()).toBe(200)
 		expect(typeof data.isInGame).toBe("boolean")
 	})
 })
