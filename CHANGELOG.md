@@ -2,6 +2,17 @@
 	Changelog
 </h1>
 
+### 1.0.5
+
+#### New features
+
+-   getPlayers endpoint
+-   tests expanded for all endpoints
+
+#### Changes
+
+-   restructured tests
+
 ### 1.0.4
 
 #### Changes
