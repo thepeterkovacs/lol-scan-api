@@ -1,9 +1,10 @@
 import { router } from "../../trpc"
-import { getIsInGame } from "./endpoints"
+import { getAllData, getIsInGame } from "./endpoints"
 import { liveGameRouter } from "./liveGame/router"
 
 const playerRouter = router({
 	getIsInGame,
+	getAllData,
 	liveGame: liveGameRouter,
 })
 

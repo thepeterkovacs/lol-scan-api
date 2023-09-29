@@ -20,3 +20,18 @@ export const getIsInGame = privateProcedure
 
 		return { isInGame: getIsInGameLogic(html) }
 	})
+
+export const getAllData = privateProcedure
+	.meta({ description: "Collects and returns all the data associated with the player." })
+	.input(Player.pick({ name: true, region: true }))
+	.output(Player.pick({ isInGame: true }))
+	.query(async ({ input }) => {
+		const { region, name } = input
+
+		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+		const html = await getHtmlFromUrl(url)
+
+		checkPlayerNotFound(html)
+
+		return { isInGame: getIsInGameLogic(html) }
+	})
