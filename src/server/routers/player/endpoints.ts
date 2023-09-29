@@ -39,7 +39,7 @@ export const getIcon = privateProcedure
 export const getAllData = privateProcedure
 	.meta({ description: "Collects and returns all the data associated with the player." })
 	.input(Player.pick({ name: true, region: true }))
-	.output(Player.pick({ isInGame: true }))
+	.output(Player.pick({ icon: true, isInGame: true }))
 	.query(async ({ input }) => {
 		const { region, name } = input
 
@@ -48,5 +48,8 @@ export const getAllData = privateProcedure
 
 		checkPlayerNotFound(html)
 
-		return { isInGame: getIsInGameLogic(html) }
+		return {
+			icon: getIconLogic(html),
+			isInGame: getIsInGameLogic(html),
+		}
 	})
