@@ -7,10 +7,10 @@ import { extractSubstring } from "../../../../lib/utils"
  * @param {string} html HTML string to extract the game mode from.
  * @returns {string} The extracted game mode.
  * @example
- * const output = getGameMode('<h2 class="left relative"> ARAM <span id="gameDuration" ...')
+ * const output = getModeLogic('<h2 class="left relative"> ARAM <span id="gameDuration" ...')
  * //output = "ARAM"
  */
-export const getGameMode = (html: string): string => {
+export const getModeLogic = (html: string): string => {
 	const prefix = '<h2 class="left relative">'
 	const suffix = '<span id="gameDuration"'
 
@@ -25,10 +25,10 @@ export const getGameMode = (html: string): string => {
  * @param {string} html HTML string to extract the game duration from.
  * @returns {number} The game duration in milliseconds.
  * @example
- * const output = getGameDuration(">(9:43)<")
+ * const output = getDurationLogic(">(9:43)<")
  * //output = 583000
  */
-export const getGameDuration = (html: string): number => {
+export const getDurationLogic = (html: string): number => {
 	const prefix = ">("
 	const suffix = ")<"
 
@@ -46,10 +46,10 @@ export const getGameDuration = (html: string): number => {
  * @param {string} html HTML string to extract player names from.
  * @returns {PlayerWithName[]} An array of players with only names.
  * @example
- * const output = getGamePlayers('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
+ * const output = getPlayersLogic('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
  * //output = [{ name: "Player1" }, { name: "Player2" }]
  */
-export const getGamePlayers = (html: string): PlayerWithName[] => {
+export const getPlayersLogic = (html: string): PlayerWithName[] => {
 	const regex = /data-summonername="(.*)" data-summonerid/g
 
 	let players: PlayerWithName[] = []

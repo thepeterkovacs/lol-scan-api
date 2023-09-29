@@ -5,7 +5,7 @@ import { privateProcedure } from "@/server/trpc"
 import { checkPlayerNotFound, checkPlayerNotInGame } from "@/lib/error"
 import { getHtmlFromUrl } from "@/lib/utils"
 
-import { getGameDuration, getGameMode, getGamePlayers } from "./logic"
+import { getDurationLogic, getModeLogic, getPlayersLogic } from "./logic"
 
 export const getMode = privateProcedure
 	.meta({ description: "For a player currently in an active game, returns the game mode." })
@@ -20,7 +20,7 @@ export const getMode = privateProcedure
 		checkPlayerNotFound(html)
 		checkPlayerNotInGame(html)
 
-		return { mode: getGameMode(html) }
+		return { mode: getModeLogic(html) }
 	})
 
 export const getDuration = privateProcedure
@@ -39,7 +39,7 @@ export const getDuration = privateProcedure
 		checkPlayerNotFound(html)
 		checkPlayerNotInGame(html)
 
-		return { duration: getGameDuration(html) }
+		return { duration: getDurationLogic(html) }
 	})
 
 export const getPlayers = privateProcedure
@@ -58,7 +58,7 @@ export const getPlayers = privateProcedure
 		checkPlayerNotFound(html)
 		checkPlayerNotInGame(html)
 
-		return { players: getGamePlayers(html) }
+		return { players: getPlayersLogic(html) }
 	})
 
 export const getAllData = privateProcedure
@@ -78,8 +78,8 @@ export const getAllData = privateProcedure
 		checkPlayerNotInGame(html)
 
 		return {
-			mode: getGameMode(html),
-			duration: getGameDuration(html),
-			players: getGamePlayers(html),
+			mode: getModeLogic(html),
+			duration: getDurationLogic(html),
+			players: getPlayersLogic(html),
 		}
 	})
