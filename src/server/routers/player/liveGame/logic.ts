@@ -1,4 +1,4 @@
-import { PlayerWithName } from "@/server/models/liveGame"
+import { LiveGamePlayer } from "@/server/models/liveGame"
 
 import { extractSubstring } from "../../../../lib/utils"
 
@@ -15,7 +15,7 @@ export const getModeLogic = (html: string): string => {
 	const suffix = '<span id="gameDuration"'
 
 	const subString = extractSubstring(html, prefix, suffix)
-	const gameMode = subString.replace(/\s/g, "")
+	const gameMode = subString.trim()
 
 	return gameMode
 }
@@ -44,19 +44,20 @@ export const getDurationLogic = (html: string): number => {
 /**
  * Extracts the players from the provided HTML string.
  * @param {string} html HTML string to extract player names from.
- * @returns {PlayerWithName[]} An array of players with only names.
+ * @returns {LiveGamePlayer[]} An array of players with only names.
  * @example
  * const output = getPlayersLogic('data-summonername="Player1" data-summonerid ... data-summonername="Player2" data-summonerid')
- * //output = [{ name: "Player1" }, { name: "Player2" }]
+ * //output = [{ name: "Player1", rank: "GrandMaster" }, { name: "Player2", rank: "Unranked" }]
  */
-export const getPlayersLogic = (html: string): PlayerWithName[] => {
-	const regex = /data-summonername="(.*)" data-summonerid/g
+export const getPlayersLogic = (html: string): LiveGamePlayer[] => {
+	const regex =
+		/data-summonername="(.*)" data-summonerid([\s\S]*?(?=data-name="rankingsBox"))([\s\S]*?(?="title">))("title">)(.*)([\s\S]*?(?=<))/g
 
-	let players: PlayerWithName[] = []
+	let players: LiveGamePlayer[] = []
 	let match: RegExpExecArray | null
 
 	while ((match = regex.exec(html)) !== null) {
-		players.push({ name: match[1] })
+		players.push({ name: match[1], rank: match[6].trim() })
 	}
 
 	return players

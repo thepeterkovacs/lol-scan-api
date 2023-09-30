@@ -2,6 +2,13 @@
 	Changelog
 </h1>
 
+### 1.0.6
+
+#### New features
+
+-   rank in liveGame getPlayers
+-   getIcon endpoint
+
 ### 1.0.5
 
 #### New features
