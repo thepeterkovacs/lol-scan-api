@@ -8,7 +8,16 @@ import { getHtmlFromUrl } from "@/lib/utils"
 import { getDurationLogic, getModeLogic, getPlayersLogic } from "./logic"
 
 export const getMode = privateProcedure
-	.meta({ description: "For a player currently in an active game, returns the game mode." })
+	.meta({
+		description: "For a player currently in an active game, returns the game mode.",
+		openapi: {
+			method: "GET",
+			path: "/player/live-game/get-mode/{region}/{name}",
+			summary: "For a player currently in an active game, returns the game mode.",
+			enabled: true,
+			protect: true,
+		},
+	})
 	.input(Player.pick({ name: true, region: true }))
 	.output(LiveGame.pick({ mode: true }))
 	.query(async ({ input }) => {
@@ -27,6 +36,14 @@ export const getDuration = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, returns the game duration in milliseconds.",
+		openapi: {
+			method: "GET",
+			path: "/player/live-game/get-duration/{region}/{name}",
+			summary:
+				"For a player currently in an active game, returns the game duration in milliseconds.",
+			enabled: true,
+			protect: true,
+		},
 	})
 	.input(Player.pick({ name: true, region: true }))
 	.output(LiveGame.pick({ duration: true }))
@@ -46,6 +63,14 @@ export const getPlayers = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, returns all players from that game.",
+		openapi: {
+			method: "GET",
+			path: "/player/live-game/get-players/{region}/{name}",
+			summary:
+				"For a player currently in an active game, returns all players from that game.",
+			enabled: true,
+			protect: true,
+		},
 	})
 	.input(Player.pick({ name: true, region: true }))
 	.output(LiveGame.pick({ players: true }))
@@ -65,6 +90,14 @@ export const getAllData = privateProcedure
 	.meta({
 		description:
 			"For a player currently in an active game, collects all the available game data.",
+		openapi: {
+			method: "GET",
+			path: "/player/live-game/get-all-data/{region}/{name}",
+			summary:
+				"For a player currently in an active game, collects all the available game data.",
+			enabled: true,
+			protect: true,
+		},
 	})
 	.input(Player.pick({ name: true, region: true }))
 	.output(LiveGame)
