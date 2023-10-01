@@ -1,8 +1,10 @@
 import { appRouter } from "@/server/appRouter"
 import { generateOpenApiDocument } from "trpc-openapi"
 
+import packageJson from "../../package.json"
+
 export const openApiDocument = generateOpenApiDocument(appRouter, {
-	title: "LoL Scan API",
-	version: "1.0.6",
-	baseUrl: "http://localhost:3000/api",
+	title: packageJson.name,
+	version: packageJson.version,
+	baseUrl: `${process.env.URL}/api`,
 })
