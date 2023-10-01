@@ -2,7 +2,10 @@ import { createOpenApiFetchHandler } from "@/openapi/adapter"
 import { appRouter } from "@/server/appRouter"
 
 const handler = (req: Request) => {
-	const apiKey = req.headers.get("api-key") ?? ""
+	const trpcApiKey = req.headers.get("api-key")
+	const openApiAuthorization = req.headers.get("authorization")?.split(" ")[1]
+
+	const apiKey = trpcApiKey ?? openApiAuthorization ?? ""
 
 	return createOpenApiFetchHandler({
 		endpoint: "/api",
