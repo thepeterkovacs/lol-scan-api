@@ -1,5 +1,9 @@
 import { PropsWithChildren } from "react"
 
 export default function RootLayout({ children }: PropsWithChildren) {
-	return children
+	return (
+		<html>
+			<body>{children}</body>
+		</html>
+	)
 }

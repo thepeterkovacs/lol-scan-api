@@ -2,6 +2,13 @@
 	Changelog
 </h1>
 
+## 1.1.0
+
+#### New features
+
+-   OpenAPI support for endpoints
+-   Swagger UI page
+
 ### 1.0.6
 
 #### New features
