@@ -70,13 +70,27 @@ export const getAllData = privateProcedure
 	.query(async ({ input }) => {
 		const { region, name } = input
 
-		const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
-		const html = await getHtmlFromUrl(url)
+		let icon
+		let isInGame
 
-		checkPlayerNotFound(html)
+		{
+			const url = `https://www.leagueofgraphs.com/summoner/${region}/${name}`
+			const html = await getHtmlFromUrl(url)
+
+			checkPlayerNotFound(html)
+
+			icon = getIconLogic(html)
+		}
+
+		{
+			const url = `https://porofessor.gg/partial/live-partial/${region}/${name}`
+			const html = await getHtmlFromUrl(url)
+
+			isInGame = getIsInGameLogic(html)
+		}
 
 		return {
-			icon: getIconLogic(html),
-			isInGame: getIsInGameLogic(html),
+			icon,
+			isInGame,
 		}
 	})
