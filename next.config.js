@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	basePath: "/lol-scan-api",
 	async headers() {
 		return [
 			{
