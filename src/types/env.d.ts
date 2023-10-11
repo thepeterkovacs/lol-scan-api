@@ -2,7 +2,6 @@ import { z } from "zod"
 
 const env = z.object({
 	URL: z.string(),
-	NEXT_PUBLIC_URL: z.string(),
 	API_KEY: z.string(),
 })
 
