@@ -11,11 +11,12 @@ export const getMode = privateProcedure
 	.meta({
 		description: "For a player currently in an active game, returns the game mode.",
 		openapi: {
+			enabled: true,
 			method: "GET",
 			path: "/player/live-game/get-mode/{region}/{name}",
-			summary: "For a player currently in an active game, returns the game mode.",
-			enabled: true,
 			protect: true,
+			summary: "For a player currently in an active game, returns the game mode.",
+			tags: ["player/live-game"],
 		},
 	})
 	.input(Player.pick({ name: true, region: true }))
@@ -37,12 +38,13 @@ export const getDuration = privateProcedure
 		description:
 			"For a player currently in an active game, returns the game duration in milliseconds.",
 		openapi: {
+			enabled: true,
 			method: "GET",
 			path: "/player/live-game/get-duration/{region}/{name}",
+			protect: true,
 			summary:
 				"For a player currently in an active game, returns the game duration in milliseconds.",
-			enabled: true,
-			protect: true,
+			tags: ["player/live-game"],
 		},
 	})
 	.input(Player.pick({ name: true, region: true }))
@@ -64,12 +66,13 @@ export const getPlayers = privateProcedure
 		description:
 			"For a player currently in an active game, returns all players from that game.",
 		openapi: {
+			enabled: true,
 			method: "GET",
 			path: "/player/live-game/get-players/{region}/{name}",
+			protect: true,
 			summary:
 				"For a player currently in an active game, returns all players from that game.",
-			enabled: true,
-			protect: true,
+			tags: ["player/live-game"],
 		},
 	})
 	.input(Player.pick({ name: true, region: true }))
@@ -91,12 +94,13 @@ export const getAllData = privateProcedure
 		description:
 			"For a player currently in an active game, collects all the available game data.",
 		openapi: {
+			enabled: true,
 			method: "GET",
 			path: "/player/live-game/get-all-data/{region}/{name}",
+			protect: true,
 			summary:
 				"For a player currently in an active game, collects all the available game data.",
-			enabled: true,
-			protect: true,
+			tags: ["player/live-game"],
 		},
 	})
 	.input(Player.pick({ name: true, region: true }))
