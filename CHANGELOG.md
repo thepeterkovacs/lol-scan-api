@@ -2,6 +2,17 @@
 	Changelog
 </h1>
 
+### 1.1.1
+
+#### New features
+
+-   Swagger tags
+-   Next public URL
+
+#### Changes
+
+-   headers source path
+
 ## 1.1.0
 
 #### New features
