@@ -19,10 +19,6 @@ const nextConfig = {
 					},
 					{
 						key: "Access-Control-Allow-Headers",
-						value: "api-key, Authorization, Content-Type",
-					},
-					{
-						key: "Content-Type",
 						value: "*",
 					},
 				],
