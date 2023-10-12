@@ -2,6 +2,17 @@
 	Changelog
 </h1>
 
+### 1.1.2
+
+#### New features
+
+-   Swagger in home page
+
+#### Changes
+
+-   Next.js config headers
+-   removed Next public URL
+
 ### 1.1.1
 
 #### New features
