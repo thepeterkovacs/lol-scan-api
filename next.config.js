@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	assetPrefix: process.env.NODE_ENV === "production" ? "/lol-scan-api" : undefined,
 	async headers() {
 		return [
 			{

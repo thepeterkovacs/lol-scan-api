@@ -2,6 +2,17 @@
 	Changelog
 </h1>
 
+### 1.1.3
+
+#### New features
+
+-   rate limit
+-   Next.js asset prefix
+
+#### Changes
+
+-   tRPC panel to panel page
+
 ### 1.1.2
 
 #### New features
