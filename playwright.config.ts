@@ -6,21 +6,26 @@ dotenv.config({
 })
 
 export default defineConfig({
-	testDir: "./tests",
-	outputDir: "./tests/out",
-	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 2 : 0,
-	workers: process.env.CI ? 1 : undefined,
-	reporter: [["list"], ["html", { outputFolder: "tests/export", open: "never" }]],
-	use: {
-		baseURL: "http://127.0.0.1:3000",
-		trace: "on-first-retry",
-	},
+	fullyParallel: true,
+	outputDir: "./tests/out",
 	projects: [
 		{
 			name: "chromium",
 			use: { ...devices["Desktop Chrome"] },
 		},
 	],
+	reporter: [["list"], ["html", { outputFolder: "tests/export", open: "never" }]],
+	retries: process.env.CI ? 2 : 0,
+	testDir: "./tests",
+	use: {
+		baseURL: "http://127.0.0.1:3000",
+		trace: "on-first-retry",
+	},
+	webServer: {
+		command: "npm run dev",
+		url: "http://127.0.0.1:3000",
+		reuseExistingServer: !process.env.CI,
+	},
+	workers: process.env.CI ? 1 : undefined,
 })
