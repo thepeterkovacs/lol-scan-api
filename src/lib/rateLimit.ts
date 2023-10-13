@@ -9,7 +9,7 @@ export default function rateLimit(options?: Options): {
 	check: (limit: number, token: string) => Promise<void>
 } {
 	const tokenCache = new LRUCache({
-		max: options?.uniqueTokenPerInterval || 500,
+		max: options?.uniqueTokenPerInterval || 10,
 		ttl: options?.intervalInMs || 60000,
 	})
 
