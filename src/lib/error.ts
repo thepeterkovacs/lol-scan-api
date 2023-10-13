@@ -17,6 +17,30 @@ export const checkApiKey = (apiKey: string): void => {
 }
 
 /**
+ * Checks if the API request rate limit is exceeded the given amount per minute.
+ * @param {{check: (limit: number, token: string) => Promise<void>}} limiter Limiter object with the check method.
+ * @param {number} limit Maximum number of requests allowed each minute.
+ * @throws {TRPCError} Throws a TRPCError with code "TOO_MANY_REQUESTS" if the rate limit is exceeded.
+ * @example
+ * await checkRateLimit(limiter, 100)
+ */
+export const checkRateLimit = async (
+	limiter: {
+		check: (limit: number, token: string) => Promise<void>
+	},
+	limit: number
+): Promise<void> => {
+	try {
+		await limiter.check(limit, "RATE_LIMIT_CACHE_TOKEN")
+	} catch {
+		throw new TRPCError({
+			code: "TOO_MANY_REQUESTS",
+			message: `Rate limit exceeded ${limit} requests per minute`,
+		})
+	}
+}
+
+/**
  * Checks if the provided HTML content indicates that a player was not found.
  * @param {string} html HTML content to be checked.
  * @throws {TRPCError} Throws a TRPCError with code "NOT_FOUND" if the player is not found.
